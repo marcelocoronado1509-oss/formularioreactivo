@@ -1,0 +1,95 @@
+
+:host {
+  display: block;
+}
+
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+.registro-card {
+  width: 100%;
+  max-width: 520px;
+  margin: 24px auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 10%);
+}
+
+ion-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  margin-top: 12px;
+}
+
+ion-input {
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
+
+.error-text {
+  margin: 6px 4px 10px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.fecha-label {
+  margin-top: 22px;
+  font-weight: 600;
+}
+
+ion-datetime {
+  width: 100%;
+  max-width: 100%;
+  margin: 12px auto 20px;
+  border-radius: 12px;
+}
+
+.submit-button {
+  margin-top: 24px;
+  min-height: 48px;
+  font-weight: 600;
+}
+
+.button-text {
+  margin-left: 10px;
+}
+
+ion-button[fill='outline'] {
+  margin-top: 16px;
+  min-height: 46px;
+}
+
+@media (max-width: 576px) {
+  .registro-card {
+    margin: 8px auto;
+    border-radius: 12px;
+  }
+
+  ion-card-title {
+    font-size: 1.3rem;
+  }
+
+  ion-card-content {
+    padding: 16px;
+  }
+
+  ion-datetime {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  ion-card-content {
+    padding: 12px;
+  }
+
+  .error-text {
+    font-size: 0.8rem;
+  }
+}

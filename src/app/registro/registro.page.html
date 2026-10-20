@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+
+    <ion-button
+      slot="end"
+      fill="clear"
+      (click)="cambiarTema()"
+      [attr.aria-label]="modoOscuro() ? 'Activar modo claro' : 'Activar modo oscuro'"
+    >
+      <ion-icon
+        slot="icon-only"
+        [name]="modoOscuro() ? 'sunny-outline' : 'moon-outline'"
+      ></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="registro-card">
+    <ion-card-header>
+      <ion-card-title>Crear cuenta</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre -->
+        <ion-item>
+          <ion-label position="stacked">Nombre completo</ion-label>
+          <ion-input
+            type="text"
+            formControlName="nombre"
+            placeholder="Escribe tu nombre"
+            autocomplete="name"
+          ></ion-input>
+        </ion-item>
+
+        @if (
+          registroForm.get('nombre')?.touched &&
+          registroForm.get('nombre')?.hasError('required')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">El nombre es obligatorio.</p>
+          </ion-text>
+        }
+
+        @if (
+          registroForm.get('nombre')?.touched &&
+          registroForm.get('nombre')?.hasError('minlength')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">El nombre debe tener al menos 3 caracteres.</p>
+          </ion-text>
+        }
+
+        <!-- Correo -->
+        <ion-item>
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input
+            type="email"
+            formControlName="email"
+            placeholder="ejemplo@correo.com"
+            autocomplete="email"
+          ></ion-input>
+        </ion-item>
+
+        @if (
+          registroForm.get('email')?.touched &&
+          registroForm.get('email')?.hasError('required')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">El correo es obligatorio.</p>
+          </ion-text>
+        }
+
+        @if (
+          registroForm.get('email')?.touched &&
+          registroForm.get('email')?.hasError('email')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">Introduce un correo válido.</p>
+          </ion-text>
+        }
+
+        <!-- Contraseña -->
+        <ion-item>
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input
+            type="password"
+            formControlName="password"
+            placeholder="Mínimo 8 caracteres"
+            autocomplete="new-password"
+          ></ion-input>
+        </ion-item>
+
+        @if (
+          registroForm.get('password')?.touched &&
+          registroForm.get('password')?.hasError('required')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">La contraseña es obligatoria.</p>
+          </ion-text>
+        }
+
+        @if (
+          registroForm.get('password')?.touched &&
+          registroForm.get('password')?.hasError('pattern')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">
+              Usa al menos 8 caracteres, con letras y números.
+              No se permiten espacios ni símbolos.
+            </p>
+          </ion-text>
+        }
+
+        <!-- Calendario -->
+        <ion-item lines="none" class="fecha-label">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          <ion-label>Fecha del registro</ion-label>
+        </ion-item>
+
+        <ion-datetime
+          presentation="date"
+          [min]="fechaMinima"
+          formControlName="fecha"
+          locale="es-ES"
+          [showDefaultButtons]="true"
+          doneText="Aceptar"
+          cancelText="Cancelar"
+        ></ion-datetime>
+
+        @if (
+          registroForm.get('fecha')?.touched &&
+          registroForm.get('fecha')?.hasError('required')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">Selecciona una fecha.</p>
+          </ion-text>
+        }
+
+        @if (
+          registroForm.get('fecha')?.touched &&
+          registroForm.get('fecha')?.hasError('fechaAnterior')
+        ) {
+          <ion-text color="danger">
+            <p class="error-text">
+              No puedes seleccionar una fecha anterior a hoy.
+            </p>
+          </ion-text>
+        }
+
+        <!-- Enviar: deshabilitado si el formulario es inválido -->
+        <ion-button
+          expand="block"
+          type="submit"
+          class="submit-button"
+          [disabled]="registroForm.invalid || isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <ion-spinner name="crescent"></ion-spinner>
+            <span class="button-text">Enviando...</span>
+          } @else {
+            Enviar registro
+          }
+        </ion-button>
+
+      </form>
+
+      <!-- PDF disponible tras un envío correcto -->
+      @if (ultimoRegistro) {
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="success"
+          (click)="descargarPDF()"
+        >
+          <ion-icon slot="start" name="download-outline"></ion-icon>
+          Descargar comprobante PDF
+        </ion-button>
+      }
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
